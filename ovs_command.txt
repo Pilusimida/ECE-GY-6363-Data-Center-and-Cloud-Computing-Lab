@@ -1,20 +1,44 @@
 # 在 s1 上添加规则，匹配 HTTP 流量（目的端口 80）并将其转发到 s2
-ovs-ofctl add-flow s1 priority=1000,in_port=1,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:2
+sh ovs-ofctl add-flow s1 priority=1000,in_port=1,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:2
 
 # 在 s2 上添加规则，将流量转发到 s4
-ovs-ofctl add-flow s2 priority=1000,in_port=1,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:2
+sh ovs-ofctl add-flow s2 priority=1000,in_port=1,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:2
 
 # 在 s4 上添加规则，将流量转发到 h2
-ovs-ofctl add-flow s4 priority=1000,in_port=2,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:1
+sh ovs-ofctl add-flow s4 priority=1000,in_port=2,dl_type=0x0800,nw_proto=6,tp_dst=80,actions=output:1
 
 # 在 s1 上添加规则，匹配非 HTTP 流量并将其转发到 s3
-ovs-ofctl add-flow s1 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:3
+sh ovs-ofctl add-flow s1 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:3
 
 # 在 s3 上添加规则，将流量转发到 s5
-ovs-ofctl add-flow s3 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:2
+sh ovs-ofctl add-flow s3 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:2
 
 # 在 s5 上添加规则，将流量转发到 s4
-ovs-ofctl add-flow s5 priority=500,in_port=2,dl_type=0x0800,nw_proto=6,actions=output:3
+sh ovs-ofctl add-flow s5 priority=500,in_port=2,dl_type=0x0800,nw_proto=6,actions=output:3
 
 # 在 s4 上添加规则，将流量转发到 h2
-ovs-ofctl add-flow s4 priority=500,in_port=3,dl_type=0x0800,nw_proto=6,actions=output:1
+sh ovs-ofctl add-flow s4 priority=500,in_port=3,dl_type=0x0800,nw_proto=6,actions=output:1
+
+# 在 s4 上添加规则，匹配 HTTP 流量（源端口 80）并将其转发到 s3
+sh ovs-ofctl add-flow s4 priority=1000,in_port=1,dl_type=0x0800,nw_proto=6,tp_src=80,actions=output:4
+
+# 在 s3 上添加规则，将流量转发到 s1
+sh ovs-ofctl add-flow s3 priority=1000,in_port=4,dl_type=0x0800,nw_proto=6,tp_src=80,actions=output:1
+
+# 在 s1 上添加规则，将流量转发到 h1
+sh ovs-ofctl add-flow s1 priority=1000,in_port=3,dl_type=0x0800,nw_proto=6,tp_src=80,actions=output:1
+
+# 在 s4 上添加规则，匹配非 HTTP 流量并将其转发到 s2
+sh ovs-ofctl add-flow s4 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:2
+
+# 在 s2 上添加规则，将流量转发到 s5
+sh ovs-ofctl add-flow s2 priority=500,in_port=2,dl_type=0x0800,nw_proto=6,actions=output:3
+
+# 在 s5 上添加规则，将流量转发到 s3
+sh ovs-ofctl add-flow s5 priority=500,in_port=3,dl_type=0x0800,nw_proto=6,actions=output:2
+
+# 在 s3 上添加规则，将流量转发到 s1
+sh ovs-ofctl add-flow s3 priority=500,in_port=2,dl_type=0x0800,nw_proto=6,actions=output:1
+
+# 在 s1 上添加规则，将流量转发到 h1
+sh ovs-ofctl add-flow s1 priority=500,in_port=1,dl_type=0x0800,nw_proto=6,actions=output:1
