@@ -29,7 +29,7 @@ class Topology(Topo):
       
         # Add hosts
         host1 = self.addHost('h1', ip='10.0.0.1/24')
-        host2 = self.addHost('h2', ip='10.0.1.1/24')
+        host2 = self.addHost('h2', ip='10.0.0.2/24')
         
         # Add switches
         swA = self.addSwitch('s1')
