@@ -35,7 +35,7 @@ class Topology(Topo):
         swA = self.addSwitch('s1')
         swB = self.addSwitch('s2')
         swC = self.addSwitch('s3')
-        swD = self.addSwitth('s4')
+        swD = self.addSwitch('s4')
         swE = self.addSwitch('s5')
         
         # Add links
