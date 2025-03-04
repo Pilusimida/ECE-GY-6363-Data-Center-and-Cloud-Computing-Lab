@@ -64,10 +64,10 @@ if __name__ == '__main__':
     net.start()
 
     # Wait for links setup (sometimes, it takes some time to setup, so wait for a while before mininet starts)
-    print "\nWaiting for links to setup . . . .", end=""
+    print "\nWaiting for links to setup . . . .",
     sys.stdout.flush()
     for time_idx in range(3):
-        print ".", end=""
+        print ".",
         sys.stdout.flush()
         sleep(1)
 
