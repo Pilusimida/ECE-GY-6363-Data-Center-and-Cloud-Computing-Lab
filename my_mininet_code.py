@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-This setup the topology in lab3-part1
+This setup the topology in lab3-part2
 """
 
 from mininet.topo import Topo
