@@ -30,7 +30,7 @@ class Topology(Topo):
 
         edge_switches = []
         for i in range(N):
-            edge_switch = self.addSwitch(f's{len(core_switched) + i + 1}')
+            edge_switch = self.addSwitch(f's{len(core_switches) + i + 1}')
             edge_switches.append(edge_switch)
 
         for i in range(N // 2):
