@@ -25,12 +25,12 @@ class Topology(Topo):
 
         core_switches = []
         for i in range(N // 2):
-            core_switch = self.addSwitch(f'cs{i+1}')
+            core_switch = self.addSwitch(f's{i+1}')
             core_switches.append(core_switch)
 
         edge_switches = []
         for i in range(N):
-            edge_switch = self.addSwitch(f'es{i+1}')
+            edge_switch = self.addSwitch(f's{len(core_switched) + i + 1}')
             edge_switches.append(edge_switch)
 
         for i in range(N // 2):
