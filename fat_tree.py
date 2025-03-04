@@ -32,13 +32,14 @@ class Topology(Topo):
             edge_switch = self.addSwitch(name)
             edge_switches.append(edge_switch)
 
-        for i in range(N // 2):
-            for j in range(N):
+        for i in range(N // 2):  # For layer 1
+            for j in range(N):  # For layer 2
                 self.addLink(core_switches[i], edge_switches[j])
 
-        for i in range(N):
-            for j in range(N // 2):
-                host = self.addHost(f'h{i*N//2+j+1}')
+        for i in range(N):  # For each switch in layer 2
+            for j in range(N // 2):  # For each host in current subnet
+                name = "h" + str(i * N // 2 + j + 1)
+                host = self.addHost(name)
                 self.addLink(host, edge_switches[i])
 
 # This is for "mn --custom"
