@@ -11,18 +11,20 @@ from mininet.cli import CLI
 from mininet.log import setLogLevel, info
 from mininet.util import dumpNodeConnections
 from mininet.link import Link, Intf, TCLink
-import os 
+import os
 from time import sleep
 import sys
-N = 4 
-class Topology(Topo):    
-    def __init__(self):
-        "Create Topology." 
+import argparse  # 引入 argparse 模块
+
+# 定义拓扑类
+class Topology(Topo):
+    def __init__(self, N):
+        "Create Topology."
         Topo.__init__(self)
 
         core_switches = []
         for i in range(N // 2):
-            name = "s" + str(i+1)
+            name = "s" + str(i + 1)
             core_switch = self.addSwitch(name)
             core_switches.append(core_switch)
 
@@ -42,36 +44,38 @@ class Topology(Topo):
                 host = self.addHost(name)
                 self.addLink(host, edge_switches[i])
 
-# This is for "mn --custom"
-topos = { 'mytopo': ( lambda: Topology() ) }
+# 定义 topos 字典，用于 "mn --custom"
+topos = {'mytopo': (lambda N=4: Topology(N))}  # 默认 N=4
 
-# This is for "python *.py"
+# 主程序
 if __name__ == '__main__':
-    setLogLevel( 'info' )
-            
-    topo = Topology()
-    net = Mininet(topo=topo, link=TCLink)       # The TCLink is a special setting for setting the bandwidth in the future.
-    
+    setLogLevel('info')
+
+    # 使用 argparse 解析命令行参数
+    parser = argparse.ArgumentParser(description='Fat Tree Topology')
+    parser.add_argument('--N', type=int, default=4, help='Number of edge switches and core switches (default: 4)')
+    args = parser.parse_args()
+
+    # 创建拓扑
+    topo = Topology(args.N)
+    net = Mininet(topo=topo, link=TCLink)  # The TCLink is a special setting for setting the bandwidth in the future.
+
     # 1. Start mininet
     net.start()
-    
-    
+
     # Wait for links setup (sometimes, it takes some time to setup, so wait for a while before mininet starts)
-    print "\nWaiting for links to setup . . . .",
+    print("\nWaiting for links to setup . . . .", end="")
     sys.stdout.flush()
     for time_idx in range(3):
-        print ".",
+        print(".", end="")
         sys.stdout.flush()
         sleep(1)
-    
-        
+
     # 2. Start the CLI commands
-    info( '\n*** Running CLI\n' )
-    CLI( net )
-    
-    
+    info('\n*** Running CLI\n')
+    CLI(net)
+
     # 3. Stop mininet properly
     net.stop()
 
-
-    ### If you did not close the mininet, please run "mn -c" to clean up and re-run the mininet 
+    ### If you did not close the mininet, please run "mn -c" to clean up and re-run the mininet
