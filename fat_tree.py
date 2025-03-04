@@ -14,9 +14,8 @@ from mininet.link import Link, Intf, TCLink
 import os
 from time import sleep
 import sys
-import argparse  # 引入 argparse 模块
+import argparse 
 
-# 定义拓扑类
 class Topology(Topo):
     def __init__(self, N):
         "Create Topology."
@@ -44,19 +43,17 @@ class Topology(Topo):
                 host = self.addHost(name)
                 self.addLink(host, edge_switches[i])
 
-# 定义 topos 字典，用于 "mn --custom"
-topos = {'mytopo': (lambda N=4: Topology(N))}  # 默认 N=4
 
-# 主程序
+topos = {'mytopo': (lambda N=4: Topology(N))}  # Default N=4
+
+# Main
 if __name__ == '__main__':
     setLogLevel('info')
 
-    # 使用 argparse 解析命令行参数
     parser = argparse.ArgumentParser(description='Fat Tree Topology')
     parser.add_argument('--N', type=int, default=4, help='Number of edge switches and core switches (default: 4)')
     args = parser.parse_args()
 
-    # 创建拓扑
     topo = Topology(args.N)
     net = Mininet(topo=topo, link=TCLink)  # The TCLink is a special setting for setting the bandwidth in the future.
 
