@@ -15,10 +15,7 @@ import os
 from time import sleep
 import sys
 N = 4 
-
-class Topology(Topo):
-    
-    
+class Topology(Topo):    
     def __init__(self):
         "Create Topology." 
         Topo.__init__(self)
